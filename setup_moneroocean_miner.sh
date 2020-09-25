@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 VERSION=2.9
 
