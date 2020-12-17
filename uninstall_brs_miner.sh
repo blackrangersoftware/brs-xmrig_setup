@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION=2.0
+VERSION=1.0
 
 # printing greetings
 
-echo "BRS Mining uninstall script v$VERSION."
+echo "BWB mining uninstall script v$VERSION."
 echo "(please report issues to support@blackrangersoftware.com email with full output of this script with extra \"-x\" \"bash\" option)"
 echo
 
