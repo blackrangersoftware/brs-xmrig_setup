@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/bash
 
-VERSION=2.10
+VERSION=3.0
 
 # printing greetings
 
