@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.10
+VERSION=3.0
 
 # printing greetings
 
@@ -20,7 +20,7 @@ EMAIL=$2 # this one is optional
 
 if [ -z $WALLET ]; then
   echo "Script usage:"
-  echo "> setup_moneroocean_miner.sh <wallet address> [<your email address>]"
+  echo "> setup_brs_miner.sh <wallet address> [<your email address>]"
   echo "ERROR: Please specify your wallet address"
   exit 1
 fi
@@ -199,7 +199,7 @@ echo "I will download, setup and run in background Monero CPU miner."
 echo "If needed, miner in foreground can be started by $HOME/brs/miner.sh script."
 echo "Mining will happen to $WALLET wallet."
 if [ ! -z $EMAIL ]; then
-  echo "(and $EMAIL email as password to modify wallet options later at https://moneroocean.stream site)"
+  echo "(and $EMAIL email as password to modify wallet options later at https://pool.co-op-mining.com site)"
 fi
 echo
 
@@ -313,7 +313,7 @@ cat >$HOME/brs/miner.sh <<EOL
 if ! pidof xmrig >/dev/null; then
   nice $HOME/brs/xmrig \$*
 else
-  echo "Monero miner is already running in the background. Refusing to run another one."
+  echo "BRS Monero miner is already running in the background. Refusing to run another one."
   echo "Run \"killall xmrig\" or \"sudo killall xmrig\" if you want to remove background miner first."
 fi
 EOL
@@ -329,7 +329,7 @@ if ! sudo -n true 2>/dev/null; then
   else 
     echo "Looks like $HOME/brs/miner.sh script is already in the $HOME/.profile"
   fi
-  echo "[*] Running miner in the background (see logs in $HOME/brs/xmrig.log file)"
+  echo "[*] Running BRS miner in the background (see logs in $HOME/brs/xmrig.log file)"
   /bin/bash $HOME/brs/miner.sh --config=$HOME/brs/config_background.json >/dev/null 2>&1
 else
 
@@ -341,7 +341,7 @@ else
 
   if ! type systemctl >/dev/null; then
 
-    echo "[*] Running miner in the background (see logs in $HOME/brs/xmrig.log file)"
+    echo "[*] Running BRS miner in the background (see logs in $HOME/brs/xmrig.log file)"
     /bin/bash $HOME/brs/miner.sh --config=$HOME/brs/config_background.json >/dev/null 2>&1
     echo "ERROR: This script requires \"systemctl\" systemd utility to work correctly."
     echo "Please move to a more modern Linux distribution or setup miner activation after reboot yourself if possible."
