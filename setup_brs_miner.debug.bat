@@ -1,11 +1,9 @@
-@echo off
-
-set VERSION=2.4
+set VERSION=3.0
 
 rem printing greetings
 
-echo MoneroOcean mining setup script v%VERSION%.
-echo ^(please report issues to support@moneroocean.stream email^)
+echo BRS mining setup script v%VERSION%.
+echo ^(please report issues to support@blackrangersoftware.com email^)
 echo.
 
 net session >nul 2>&1
@@ -20,7 +18,7 @@ rem checking prerequisites
 
 if [%WALLET%] == [] (
   echo Script usage:
-  echo ^> setup_moneroocean_miner.bat ^<wallet address^> [^<your email address^>]
+  echo ^> setup_brs_miner.bat ^<wallet address^> [^<your email address^>]
   echo ERROR: Please specify your wallet address
   exit /b 1
 )
@@ -46,7 +44,8 @@ if not exist "%USERPROFILE%" (
 
 where wmic >NUL
 if not %errorlevel% == 0 (
-  echo WARNING: This script requires "wmic" utility to work correctly
+  echo ERROR: This script requires "wmic" utility to work correctly
+  exit /b 1
 )
 
 where powershell >NUL
@@ -163,14 +162,14 @@ set PORT=10001
 
 rem printing intentions
 
-set "LOGFILE=%USERPROFILE%\moneroocean\xmrig.log"
+set "LOGFILE=%USERPROFILE%\brs\xmrig.log"
 
 echo I will download, setup and run in background Monero CPU miner with logs in %LOGFILE% file.
-echo If needed, miner in foreground can be started by %USERPROFILE%\moneroocean\miner.bat script.
+echo If needed, miner in foreground can be started by %USERPROFILE%\brs\miner.bat script.
 echo Mining will happen to %WALLET% wallet.
 
 if not [%EMAIL%] == [] (
-  echo ^(and %EMAIL% email as password to modify wallet options later at https://moneroocean.stream site^)
+  echo ^(and %EMAIL% email as password to modify wallet options later at https://co-op-mining.com/pool site^)
 )
 
 echo.
@@ -178,7 +177,7 @@ echo.
 if %ADMIN% == 0 (
   echo Since I do not have admin access, mining in background will be started using your startup directory script and only work when your are logged in this host.
 ) else (
-  echo Mining in background will be performed using moneroocean_miner service.
+  echo Mining in background will be performed using brs_miner service.
 )
 
 echo.
@@ -189,49 +188,49 @@ pause
 
 rem start doing stuff: preparing miner
 
-echo [*] Removing previous moneroocean miner (if any)
-sc stop moneroocean_miner
-sc delete moneroocean_miner
+echo [*] Removing previous brs miner (if any)
+sc stop brs_miner
+sc delete brs_miner
 taskkill /f /t /im xmrig.exe
 
 :REMOVE_DIR0
-echo [*] Removing "%USERPROFILE%\moneroocean" directory
+echo [*] Removing "%USERPROFILE%\brs" directory
 timeout 5
-rmdir /q /s "%USERPROFILE%\moneroocean" >NUL 2>NUL
-IF EXIST "%USERPROFILE%\moneroocean" GOTO REMOVE_DIR0
+rmdir /q /s "%USERPROFILE%\brs" >NUL 2>NUL
+IF EXIST "%USERPROFILE%\brs" GOTO REMOVE_DIR0
 
-echo [*] Downloading MoneroOcean advanced version of xmrig to "%USERPROFILE%\xmrig.zip"
-powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.zip', '%USERPROFILE%\xmrig.zip')"
+echo [*] Downloading BRS advanced version of xmrig to "%USERPROFILE%\xmrig.zip"
+powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/xmrig.zip', '%USERPROFILE%\xmrig.zip')"
 if errorlevel 1 (
-  echo ERROR: Can't download MoneroOcean advanced version of xmrig
+  echo ERROR: Can't download BRS advanced version of xmrig
   goto MINER_BAD
 )
 
-echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\moneroocean"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\moneroocean')"
+echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\brs"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\brs')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
   )
-  echo [*] Unpacking stock "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\moneroocean"
-  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\moneroocean" "%USERPROFILE%\xmrig.zip" >NUL
+  echo [*] Unpacking stock "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\brs"
+  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\brs" "%USERPROFILE%\xmrig.zip" >NUL
   del "%USERPROFILE%\7za.exe"
 )
 del "%USERPROFILE%\xmrig.zip"
 
-echo [*] Checking if advanced version of "%USERPROFILE%\moneroocean\xmrig.exe" works fine ^(and not removed by antivirus software^)
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 1,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
-"%USERPROFILE%\moneroocean\xmrig.exe" --help >NUL
+echo [*] Checking if advanced version of "%USERPROFILE%\brs\xmrig.exe" works fine ^(and not removed by antivirus software^)
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 1,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
+"%USERPROFILE%\brs\xmrig.exe" --help >NUL
 if %ERRORLEVEL% equ 0 goto MINER_OK
 :MINER_BAD
 
-if exist "%USERPROFILE%\moneroocean\xmrig.exe" (
-  echo WARNING: Advanced version of "%USERPROFILE%\moneroocean\xmrig.exe" is not functional
+if exist "%USERPROFILE%\brs\xmrig.exe" (
+  echo WARNING: Advanced version of "%USERPROFILE%\brs\xmrig.exe" is not functional
 ) else (
-  echo WARNING: Advanced version of "%USERPROFILE%\moneroocean\xmrig.exe" was removed by antivirus
+  echo WARNING: Advanced version of "%USERPROFILE%\brs\xmrig.exe" was removed by antivirus
 )
 
 echo [*] Looking for the latest version of Monero miner
@@ -246,46 +245,46 @@ if errorlevel 1 (
 )
 
 :REMOVE_DIR1
-echo [*] Removing "%USERPROFILE%\moneroocean" directory
+echo [*] Removing "%USERPROFILE%\brs" directory
 timeout 5
-rmdir /q /s "%USERPROFILE%\moneroocean" >NUL 2>NUL
-IF EXIST "%USERPROFILE%\moneroocean" GOTO REMOVE_DIR1
+rmdir /q /s "%USERPROFILE%\brs" >NUL 2>NUL
+IF EXIST "%USERPROFILE%\brs" GOTO REMOVE_DIR1
 
-echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\moneroocean"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\moneroocean')"
+echo [*] Unpacking "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\brs"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\xmrig.zip', '%USERPROFILE%\brs')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
   )
-  echo [*] Unpacking advanced "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\moneroocean"
-  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\moneroocean" "%USERPROFILE%\xmrig.zip" >NUL
+  echo [*] Unpacking advanced "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\brs"
+  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\brs" "%USERPROFILE%\xmrig.zip" >NUL
   if errorlevel 1 (
-    echo ERROR: Can't unpack "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\moneroocean"
+    echo ERROR: Can't unpack "%USERPROFILE%\xmrig.zip" to "%USERPROFILE%\brs"
     exit /b 1
   )
   del "%USERPROFILE%\7za.exe"
 )
 del "%USERPROFILE%\xmrig.zip"
 
-echo [*] Checking if stock version of "%USERPROFILE%\moneroocean\xmrig.exe" works fine ^(and not removed by antivirus software^)
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
-"%USERPROFILE%\moneroocean\xmrig.exe" --help >NUL
+echo [*] Checking if stock version of "%USERPROFILE%\brs\xmrig.exe" works fine ^(and not removed by antivirus software^)
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"donate-level\": *\d*,', '\"donate-level\": 0,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
+"%USERPROFILE%\brs\xmrig.exe" --help >NUL
 if %ERRORLEVEL% equ 0 goto MINER_OK
 
-if exist "%USERPROFILE%\moneroocean\xmrig.exe" (
-  echo WARNING: Stock version of "%USERPROFILE%\moneroocean\xmrig.exe" is not functional
+if exist "%USERPROFILE%\brs\xmrig.exe" (
+  echo WARNING: Stock version of "%USERPROFILE%\brs\xmrig.exe" is not functional
 ) else (
-  echo WARNING: Stock version of "%USERPROFILE%\moneroocean\xmrig.exe" was removed by antivirus
+  echo WARNING: Stock version of "%USERPROFILE%\brs\xmrig.exe" was removed by antivirus
 )
 
 exit /b 1
 
 :MINER_OK
 
-echo [*] Miner "%USERPROFILE%\moneroocean\xmrig.exe" is OK
+echo [*] Miner "%USERPROFILE%\brs\xmrig.exe" is OK
 
 for /f "tokens=*" %%a in ('powershell -Command "hostname | %%{$_ -replace '[^a-zA-Z0-9]+', '_'}"') do set PASS=%%a
 if [%PASS%] == [] (
@@ -295,15 +294,15 @@ if not [%EMAIL%] == [] (
   set "PASS=%PASS%:%EMAIL%"
 )
 
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"gulf.moneroocean.stream:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"url\": *\".*\",', '\"url\": \"gulf.brs.stream:%PORT%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"user\": *\".*\",', '\"user\": \"%WALLET%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"pass\": *\".*\",', '\"pass\": \"%PASS%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"max-cpu-usage\": *\d*,', '\"max-cpu-usage\": 100,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
 set LOGFILE2=%LOGFILE:\=\\%
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config.json' | %%{$_ -replace '\"log-file\": *null,', '\"log-file\": \"%LOGFILE2%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config.json'" 
+powershell -Command "$out = cat '%USERPROFILE%\brs\config.json' | %%{$_ -replace '\"log-file\": *null,', '\"log-file\": \"%LOGFILE2%\",'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config.json'" 
 
-copy /Y "%USERPROFILE%\moneroocean\config.json" "%USERPROFILE%\moneroocean\config_background.json" >NUL
-powershell -Command "$out = cat '%USERPROFILE%\moneroocean\config_background.json' | %%{$_ -replace '\"background\": *false,', '\"background\": true,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\moneroocean\config_background.json'" 
+copy /Y "%USERPROFILE%\brs\config.json" "%USERPROFILE%\brs\config_background.json" >NUL
+powershell -Command "$out = cat '%USERPROFILE%\brs\config_background.json' | %%{$_ -replace '\"background\": *false,', '\"background\": true,'} | Out-String; $out | Out-File -Encoding ASCII '%USERPROFILE%\brs\config_background.json'" 
 
 rem preparing script
 (
@@ -313,10 +312,10 @@ echo if errorlevel 1 goto ALREADY_RUNNING
 echo start /low %%~dp0xmrig.exe %%^*
 echo goto EXIT
 echo :ALREADY_RUNNING
-echo echo Monero miner is already running in the background. Refusing to run another one.
+echo echo BRS miner is already running in the background. Refusing to run another one.
 echo echo Run "taskkill /IM xmrig.exe" if you want to remove background miner first.
 echo :EXIT
-) > "%USERPROFILE%\moneroocean\miner.bat"
+) > "%USERPROFILE%\brs\miner.bat"
 
 rem preparing script background work and work under reboot
 
@@ -335,66 +334,66 @@ echo ERROR: Can't find Windows startup directory
 exit /b 1
 
 :STARTUP_DIR_OK
-echo [*] Adding call to "%USERPROFILE%\moneroocean\miner.bat" script to "%STARTUP_DIR%\moneroocean_miner.bat" script
+echo [*] Adding call to "%USERPROFILE%\brs\miner.bat" script to "%STARTUP_DIR%\brs_miner.bat" script
 (
 echo @echo off
-echo "%USERPROFILE%\moneroocean\miner.bat" --config="%USERPROFILE%\moneroocean\config_background.json"
-) > "%STARTUP_DIR%\moneroocean_miner.bat"
+echo "%USERPROFILE%\brs\miner.bat" --config="%USERPROFILE%\brs\config_background.json"
+) > "%STARTUP_DIR%\brs_miner.bat"
 
 echo [*] Running miner in the background
-call "%STARTUP_DIR%\moneroocean_miner.bat"
+call "%STARTUP_DIR%\brs_miner.bat"
 goto OK
 
 :ADMIN_MINER_SETUP
 
-echo [*] Downloading tools to make moneroocean_miner service to "%USERPROFILE%\nssm.zip"
-powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/nssm.zip', '%USERPROFILE%\nssm.zip')"
+echo [*] Downloading tools to make brs_miner service to "%USERPROFILE%\nssm.zip"
+powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/nssm.zip', '%USERPROFILE%\nssm.zip')"
 if errorlevel 1 (
-  echo ERROR: Can't download tools to make moneroocean_miner service
+  echo ERROR: Can't download tools to make brs_miner service
   exit /b 1
 )
 
-echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\moneroocean"
-powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\nssm.zip', '%USERPROFILE%\moneroocean')"
+echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\brs"
+powershell -Command "Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('%USERPROFILE%\nssm.zip', '%USERPROFILE%\brs')"
 if errorlevel 1 (
   echo [*] Downloading 7za.exe to "%USERPROFILE%\7za.exe"
-  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
+  powershell -Command "$wc = New-Object System.Net.WebClient; $wc.DownloadFile('https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/7za.exe', '%USERPROFILE%\7za.exe')"
   if errorlevel 1 (
     echo ERROR: Can't download 7za.exe to "%USERPROFILE%\7za.exe"
     exit /b 1
   )
-  echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\moneroocean"
-  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\moneroocean" "%USERPROFILE%\nssm.zip" >NUL
+  echo [*] Unpacking "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\brs"
+  "%USERPROFILE%\7za.exe" x -y -o"%USERPROFILE%\brs" "%USERPROFILE%\nssm.zip" >NUL
   if errorlevel 1 (
-    echo ERROR: Can't unpack "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\moneroocean"
+    echo ERROR: Can't unpack "%USERPROFILE%\nssm.zip" to "%USERPROFILE%\brs"
     exit /b 1
   )
   del "%USERPROFILE%\7za.exe"
 )
 del "%USERPROFILE%\nssm.zip"
 
-echo [*] Creating moneroocean_miner service
-sc stop moneroocean_miner
-sc delete moneroocean_miner
-"%USERPROFILE%\moneroocean\nssm.exe" install moneroocean_miner "%USERPROFILE%\moneroocean\xmrig.exe"
+echo [*] Creating brs_miner service
+sc stop brs_miner
+sc delete brs_miner
+"%USERPROFILE%\brs\nssm.exe" install brs_miner "%USERPROFILE%\brs\xmrig.exe"
 if errorlevel 1 (
-  echo ERROR: Can't create moneroocean_miner service
+  echo ERROR: Can't create brs_miner service
   exit /b 1
 )
-"%USERPROFILE%\moneroocean\nssm.exe" set moneroocean_miner AppDirectory "%USERPROFILE%\moneroocean"
-"%USERPROFILE%\moneroocean\nssm.exe" set moneroocean_miner AppPriority BELOW_NORMAL_PRIORITY_CLASS
-"%USERPROFILE%\moneroocean\nssm.exe" set moneroocean_miner AppStdout "%USERPROFILE%\moneroocean\stdout"
-"%USERPROFILE%\moneroocean\nssm.exe" set moneroocean_miner AppStderr "%USERPROFILE%\moneroocean\stderr"
+"%USERPROFILE%\brs\nssm.exe" set brs_miner AppDirectory "%USERPROFILE%\brs"
+"%USERPROFILE%\brs\nssm.exe" set brs_miner AppPriority BELOW_NORMAL_PRIORITY_CLASS
+"%USERPROFILE%\brs\nssm.exe" set brs_miner AppStdout "%USERPROFILE%\brs\stdout"
+"%USERPROFILE%\brs\nssm.exe" set brs_miner AppStderr "%USERPROFILE%\brs\stderr"
 
-echo [*] Starting moneroocean_miner service
-"%USERPROFILE%\moneroocean\nssm.exe" start moneroocean_miner
+echo [*] Starting brs_miner service
+"%USERPROFILE%\brs\nssm.exe" start brs_miner
 if errorlevel 1 (
-  echo ERROR: Can't start moneroocean_miner service
+  echo ERROR: Can't start brs_miner service
   exit /b 1
 )
 
 echo
-echo Please reboot system if moneroocean_miner service is not activated yet (if "%USERPROFILE%\moneroocean\xmrig.log" file is empty)
+echo Please reboot system if brs_miner service is not activated yet (if "%USERPROFILE%\brs\xmrig.log" file is empty)
 goto OK
 
 :OK

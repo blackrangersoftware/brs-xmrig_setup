@@ -1,11 +1,11 @@
 @echo off
 
-set VERSION=1.0
+set VERSION=2.0
 
 rem printing greetings
 
-echo MoneroOcean mining uninstall script v%VERSION%.
-echo ^(please report issues to support@moneroocean.stream email^)
+echo BRS mining uninstall script v%VERSION%.
+echo ^(please report issues to support@blackrangersoftware.com email^)
 echo.
 
 net session >nul 2>&1
@@ -21,12 +21,12 @@ if not exist "%USERPROFILE%" (
   exit /b 1
 )
 
-echo [*] Removing moneroocean miner
+echo [*] Removing BRS miner
 
 if %ADMIN% == 0 goto SKIP_ADMIN_PART
 
-sc stop moneroocean_miner
-sc delete moneroocean_miner
+sc stop brs_miner
+sc delete brs_miner
 
 :SKIP_ADMIN_PART
 
@@ -45,13 +45,13 @@ echo WARNING: Can't find Windows startup directory
 goto REMOVE_DIR
 
 :STARTUP_DIR_OK
-del "%STARTUP_DIR%\moneroocean_miner.bat"
+del "%STARTUP_DIR%\brs_miner.bat"
 
 :REMOVE_DIR
-echo [*] Removing "%USERPROFILE%\moneroocean" directory
+echo [*] Removing "%USERPROFILE%\brs" directory
 timeout 5
-rmdir /q /s "%USERPROFILE%\moneroocean" >NUL 2>NUL
-IF EXIST "%USERPROFILE%\moneroocean" GOTO REMOVE_DIR
+rmdir /q /s "%USERPROFILE%\brs" >NUL 2>NUL
+IF EXIST "%USERPROFILE%\brs" GOTO REMOVE_DIR
 
 echo [*] Uninstall complete
 pause
