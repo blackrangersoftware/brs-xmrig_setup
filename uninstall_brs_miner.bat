@@ -4,7 +4,7 @@ set VERSION=2.0
 
 rem printing greetings
 
-echo BRS mining uninstall script v%VERSION%.
+echo BRS miner uninstall script v%VERSION%.
 echo ^(please report issues to support@blackrangersoftware.com email^)
 echo.
 
