@@ -170,7 +170,7 @@ echo If needed, miner in foreground can be started by %USERPROFILE%\brs\miner.ba
 echo Mining will happen to %WALLET% wallet.
 
 if not [%EMAIL%] == [] (
-  echo ^(and %EMAIL% email as password to modify wallet options later at https://co-op-mining.com/pool site^)
+  echo ^(and %EMAIL% email as password to modify wallet options later at https://xmr-pool.co-op-mining.com site^)
 )
 
 echo.
