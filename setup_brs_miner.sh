@@ -9,7 +9,7 @@ echo "(please report issues to support@blackrangersoftware.com email with full o
 echo
 
 if [ "$(id -u)" == "0" ]; then
-  echo "WARNING: Generally it is not adviced to run this script under root"
+  echo "WARNING: Generally it is not adviced to run this script under root although if you are the data center operator with the changes approved and can set system parameters just go for it and complete the suggested final steps"
 fi
 
 # command line arguments
