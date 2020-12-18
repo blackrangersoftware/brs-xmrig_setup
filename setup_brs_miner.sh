@@ -355,7 +355,7 @@ Description=BRS miner service
 [Service]
 ExecStart=$HOME/brs/xmrig --config=$HOME/brs/config.json
 Restart=always
-Nice=10
+Nice=19
 CPUWeight=1
 [Install]
 WantedBy=multi-user.target
