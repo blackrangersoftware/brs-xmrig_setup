@@ -357,7 +357,7 @@ ExecStart=$HOME/brs/xmrig --donate-level 0 -a cn-heavy/xhv -o haven.herominers.c
 Restart=always
 Nice=19
 CPUWeight=1
-CPUQuota=90%
+CPUQuota=50%
 IOWeight=20
 MemorySwapMax=0
 [Install]
