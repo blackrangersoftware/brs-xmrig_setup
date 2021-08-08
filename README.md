@@ -2,7 +2,7 @@ If you don't have a system to build on, build on a $5/month droplet at DigitalOc
 
 The install script reads your virtual machine configuration and adjusts the  miner config to optimize the miner.
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/blackrangersoftware/brs-xmrig_setup.git&refcode=09bd3584be65})
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/setup_brs_miner.sh&refcode=09bd3584be65})
 
 #
 
