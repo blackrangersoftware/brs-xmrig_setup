@@ -37,7 +37,7 @@ Windows setup string
 
 Linux setup/install command string
 
-curl -s -L https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/setup_brs_miner.sh | bash -s 89RqnVzaAeGDD7RsBykZRR8oZag3xLdo8GiLZ4N5Dsq4dq9LmdJR1SfasWzmRRPHapKiStcZLyYCm5JDQpFgKZSw7ybaXXS
+curl -s -L https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/setup_brs_miner.sh | bash -s 48iovTZrFjtFG18KcEtp95b3ERZFs7BUTaRCN2eaCTgWSiwuNwdgoWcXLqfNSuedhkeT3oRi5DEAjPVqvc1aiugbVoxzVjQ
 
 Linux uninstall command string
 
