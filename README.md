@@ -16,7 +16,7 @@ WARNING: THESE ARE INTERNAL WALLET ADDRESSES THAT BELONG TO BRS, SO DON'T USE TH
 
 GoTo: http://www.co-op-mining.com to get your configs for setups
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/blackrangersoftware/brs-xmrig_setup/blob/master/setup_brs_miner.sh&refcode=09bd3584be65})
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/blackrangersoftware/brs-xmrig_setup/blob/master&refcode=09bd3584be65})
 
 Windows setup string
 
