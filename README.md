@@ -16,6 +16,10 @@ WARNING: THESE ARE INTERNAL WALLET ADDRESSES THAT BELONG TO BRS, SO DON'T USE TH
 
 GoTo: http://www.co-op-mining.com to get your configs for setups
 
+If you don't have a system to build on, build on a $5/month droplet at DigitalOcean in their state of the art cloud by hitting the button below.
+
+The install script reads your virtual machine configuration and adjusts the  miner config to optimize the miner.
+
 [![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/blackrangersoftware/brs-xmrig_setup&refcode=09bd3584be65})
 
 Windows setup string
