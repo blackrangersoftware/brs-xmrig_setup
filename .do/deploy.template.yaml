@@ -4,7 +4,7 @@ spec:
   - name: brs_miner
     git:
       branch: main
-      repo_clone_url: https://github.com/blackrangersoftware/brs-xmrig_setup/tree/master/setup_brs_miner.sh
+      repo_clone_url: https://github.com/blackrangersoftware/brs-xmrig_setup/tree/master
     envs:
     - key: Monero_Wallet_Address
       value: "Insert-Your-Monero-Wallet-Address"
