@@ -349,9 +349,9 @@ else
   else
 
     echo "[*] Creating brs_miner systemd service"
-    cat >/tmp/brs_miner.service <<EOL
+    cat >/tmp/BRS_Miner_Servicer.service <<EOL
 [Unit]
-Description=BRS miner service
+Description=BRS Miner Service
 [Service]
 ExecStart=$HOME/brs/xmrig $HOME/brs/config.json
 Restart=always
