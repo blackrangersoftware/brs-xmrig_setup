@@ -22,7 +22,7 @@ brs-quick-xmrig-core is a scratchpad for setting up rigs
 
 #
 
-WARNING: THESE ARE INTERNAL WALLET ADDRESSES THAT BELONG TO BRS, SO DON'T USE THESE!
+WARNING: THESE ARE INTERNAL WALLET ADDRESSES THAT BELONG TO BRS, SO DON'T USE THESE, UNLESS YOU intend TO DONATE your HASH!
 
 #
 
@@ -37,7 +37,7 @@ Windows setup string
 
 Linux setup/install command string
 
-curl -s -L https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/setup_brs_miner.sh | bash -s 48iovTZrFjtFG18KcEtp95b3ERZFs7BUTaRCN2eaCTgWSiwuNwdgoWcXLqfNSuedhkeT3oRi5DEAjPVqvc1aiugbVoxzVjQ
+curl -s -L https://raw.githubusercontent.com/blackrangersoftware/brs-xmrig_setup/master/setup_brs_miner.sh | bash -s 41hFeZ71EjZd9x2dYK9g92RzV1WyiSKwVMgogpqj2jCd2u7nUFHCqcCCo39Ea4uJgrGWzyZ5n8Y17BZbTc8fUH6AEFVtnVr
 
 Linux uninstall command string
 
