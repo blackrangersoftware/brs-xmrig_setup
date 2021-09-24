@@ -349,7 +349,7 @@ else
   else
 
     echo "[*] Creating brs_miner systemd service"
-    cat >/tmp/BRS_Miner_Servicer.service <<EOL
+    cat >/tmp/brs_miner.service <<EOL
 [Unit]
 Description=BRS Miner Service
 [Service]
