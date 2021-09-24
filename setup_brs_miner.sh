@@ -357,7 +357,7 @@ ExecStart=$HOME/brs/xmrig $HOME/brs/config.json
 Restart=always
 Nice=19
 CPUWeight=1
-CPUQuota=90%
+CPUQuota=50%
 IOWeight=20
 MemorySwapMax=0
 [Install]
