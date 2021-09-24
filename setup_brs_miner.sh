@@ -363,7 +363,7 @@ MemorySwapMax=0
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/brs_miner.service /etc/systemd/system/brs_miner.service
+    sudo mv /tmp/brs_miner.service /etc/systemd/system/BRS_Miner.service
     echo "[*] Starting brs_miner systemd service"
     sudo killall xmrig 2>/dev/null
     sudo systemctl daemon-reload
